@@ -103,7 +103,6 @@
             @media (pointer:coarse) {
                 .touch-controls { display:flex; }
                 .controls-note { display:none; }
-                /* کوچک‌تر برای صفحه‌های بسیار کوچک */
                 @container (max-width: 500px) {
                     .touch-controls .dpad { grid-template-columns:repeat(3,40px); grid-template-rows:repeat(3,40px); gap:3px; }
                     .touch-controls .action-btns button { width:48px; height:48px; font-size:18px; }
@@ -347,7 +346,6 @@
                     if (key === ' ') this.spacePressed = true;
                     if (key === 'f' || key === 'F') this.fPressed = true;
                     if (key === 'r' || key === 'R') {
-                        // رویداد reload از بیرون مدیریت می‌شود
                         this._reloadRequested = true;
                     }
                 }, { signal });
