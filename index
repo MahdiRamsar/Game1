@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🔦 DOOM 3 × Poppy Playtime - نسخه کامل</title>
+    <title>🔦 DOOM 3 × Poppy Playtime</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         body {
@@ -110,14 +110,10 @@
 (function() {
     'use strict';
 
-    // ============================================================
-    // 1. تنظیمات اصلی
-    // ============================================================
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const W = 1000, H = 650;
 
-    // HUD
     const hpSpan = document.getElementById('hpDisplay');
     const ammoSpan = document.getElementById('ammoDisplay');
     const lightSpan = document.getElementById('lightDisplay');
@@ -126,9 +122,6 @@
     const levelSpan = document.getElementById('levelDisplay');
     const killSpan = document.getElementById('killDisplay');
 
-    // ============================================================
-    // 2. حالت بازی
-    // ============================================================
     let gameState = 'MENU';
     let score = 0;
     let kills = 0;
@@ -141,9 +134,6 @@
     let bossDefeated = false;
     let levelComplete = false;
 
-    // ============================================================
-    // 3. بازیکن
-    // ============================================================
     const player = {
         x: 500, y: 325,
         w: 32, h: 38,
@@ -163,9 +153,6 @@
         bobPhase: 0
     };
 
-    // ============================================================
-    // 4. انواع دشمنان
-    // ============================================================
     const ENEMY_TYPES = {
         huggy: {
             name: 'هاگی واگی',
@@ -208,9 +195,6 @@
         }
     };
 
-    // ============================================================
-    // 5. غول (باس)
-    // ============================================================
     const BOSS_TYPES = {
         huggy_boss: {
             name: '👾 هاگی غول‌پیکر',
@@ -256,9 +240,6 @@
         }
     };
 
-    // ============================================================
-    // 6. اشیاء بازی
-    // ============================================================
     let enemies = [];
     let bullets = [];
     let particles = [];
@@ -266,18 +247,12 @@
     let ammoPickups = [];
     let healthPickups = [];
 
-    // ============================================================
-    // 7. ورودی
-    // ============================================================
     const keys = { w: false, a: false, s: false, d: false, shift: false };
     let mouseX = W/2, mouseY = H/2;
     let spacePressed = false;
     let fPressed = false;
     let mouseDown = false;
 
-    // ============================================================
-    // 8. توابع کمکی
-    // ============================================================
     function dist(a, b) {
         return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
     }
@@ -290,8 +265,6 @@
     function rand(min, max) { return Math.random() * (max - min) + min; }
 
     function randInt(min, max) { return Math.floor(rand(min, max + 1)); }
-
-    function lerp(a, b, t) { return a + (b - a) * t; }
 
     function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
@@ -326,9 +299,6 @@
         killSpan.textContent = kills;
     }
 
-    // ============================================================
-    // 9. تولید دشمنان و غول‌ها
-    // ============================================================
     function spawnEnemy(type = null) {
         const side = randInt(0, 3);
         let x, y;
@@ -422,9 +392,6 @@
         screenShake = 15;
     }
 
-    // ============================================================
-    // 10. شروع مرحله
-    // ============================================================
     function startLevel() {
         levelEnemyCount = 5 + level * 2;
         enemiesSpawned = 0;
@@ -466,9 +433,6 @@
         updateHUD();
     }
 
-    // ============================================================
-    // 11. شروع بازی
-    // ============================================================
     function startGame() {
         gameState = 'PLAYING';
         score = 0;
@@ -492,13 +456,10 @@
         bossActive = false;
         bossDefeated = false;
         levelComplete = false;
-        canvas.focus(); // 👈 مهم: فوکوس به canvas
+        canvas.focus();
         startLevel();
     }
 
-    // ============================================================
-    // 12. شلیک
-    // ============================================================
     function shoot() {
         if (gameState !== 'PLAYING') return;
         if (player.reloading) return;
@@ -539,9 +500,6 @@
         updateHUD();
     }
 
-    // ============================================================
-    // 13. بارگذاری مجدد
-    // ============================================================
     function startReload() {
         if (player.reloading) return;
         if (player.ammo === player.maxAmmo) return;
@@ -550,14 +508,10 @@
         addFloatingText(player.x, player.y - 35, '🔄 بارگذاری...', '#0f0');
     }
 
-    // ============================================================
-    // 14. بروزرسانی بازی
-    // ============================================================
     function update() {
         if (gameState !== 'PLAYING') return;
         gameTime++;
 
-        // ---- بارگذاری مجدد ----
         if (player.reloading) {
             player.reloadTimer--;
             if (player.reloadTimer <= 0) {
@@ -568,13 +522,11 @@
             }
         }
 
-        // ---- کولدان‌ها ----
         if (player.shootCooldown > 0) player.shootCooldown--;
         if (player.damageCooldown > 0) player.damageCooldown--;
         if (player.weaponBob > -3) player.weaponBob *= 0.85;
         player.bobPhase += 0.05;
 
-        // ---- حرکت بازیکن (اصلاح شده) ----
         let dx = 0, dy = 0;
         if (keys.w) dy = -1;
         if (keys.s) dy = 1;
@@ -589,21 +541,17 @@
         player.x = clamp(newX, 0, W - player.w);
         player.y = clamp(newY, 0, H - player.h);
 
-        // ---- زاویه به سمت ماوس ----
         const ang = Math.atan2(mouseY - (player.y + player.h/2), mouseX - (player.x + player.w/2));
         player.angle = ang;
 
-        // ---- چراغ قوه ----
         if (fPressed) {
             player.flashlight = !player.flashlight;
             fPressed = false;
             updateHUD();
         }
 
-        // ---- شلیک ----
         if (spacePressed || mouseDown) shoot();
 
-        // ---- بروزرسانی گلوله‌ها ----
         for (let i = bullets.length - 1; i >= 0; i--) {
             const b = bullets[i];
             b.x += b.vx;
@@ -664,7 +612,6 @@
             if (hit) bullets.splice(i, 1);
         }
 
-        // ---- بروزرسانی دشمنان ----
         for (let i = enemies.length - 1; i >= 0; i--) {
             const e = enemies[i];
             if (e.dead) continue;
@@ -736,7 +683,6 @@
             }
         }
 
-        // ---- جمع‌آوری آیتم‌ها ----
         for (let i = ammoPickups.length - 1; i >= 0; i--) {
             const item = ammoPickups[i];
             if (item.collected) continue;
@@ -763,7 +709,6 @@
             }
         }
 
-        // ---- تولید دشمنان جدید ----
         const aliveEnemies = enemies.filter(e => !e.dead).length;
         const needMore = levelEnemyCount - enemiesSpawned;
 
@@ -773,7 +718,6 @@
             }
         }
 
-        // ---- بررسی باس ----
         if (!bossActive && !bossDefeated && enemiesSpawned >= levelEnemyCount) {
             const alive = enemies.filter(e => !e.dead).length;
             if (alive === 0) {
@@ -803,7 +747,6 @@
             }
         }
 
-        // ---- بروزرسانی ذرات ----
         for (let i = particles.length - 1; i >= 0; i--) {
             const p = particles[i];
             p.x += p.vx;
@@ -814,7 +757,6 @@
             if (p.life <= 0 || p.size < 0.3) particles.splice(i, 1);
         }
 
-        // ---- بروزرسانی متن‌های شناور ----
         for (let i = floatingTexts.length - 1; i >= 0; i--) {
             const ft = floatingTexts[i];
             ft.y += ft.vy;
@@ -823,16 +765,12 @@
             if (ft.life <= 0) floatingTexts.splice(i, 1);
         }
 
-        // ---- لرزش صفحه ----
         if (screenShake > 0) screenShake *= 0.93;
         if (screenShake < 0.1) screenShake = 0;
 
         updateHUD();
     }
 
-    // ============================================================
-    // 15. رسم بازی
-    // ============================================================
     function draw() {
         ctx.save();
 
@@ -842,7 +780,6 @@
             ctx.translate(sx, sy);
         }
 
-        // پس‌زمینه
         const grad = ctx.createRadialGradient(500, 325, 100, 500, 325, 550);
         grad.addColorStop(0, '#1a1a3e');
         grad.addColorStop(0.4, '#0f0f2a');
@@ -875,7 +812,6 @@
             ctx.fill();
         }
 
-        // افکت تاریکی
         if (!player.flashlight) {
             const grd = ctx.createRadialGradient(
                 player.x + player.w/2, player.y + player.h/2, 20,
@@ -919,7 +855,6 @@
             ctx.shadowBlur = 0;
         }
 
-        // آیتم‌ها
         for (let item of ammoPickups) {
             if (item.collected) continue;
             const pulse = Math.sin(gameTime * 0.06 + item.x) * 0.15 + 1;
@@ -946,16 +881,12 @@
             ctx.shadowBlur = 0;
         }
 
-        // دشمنان
         for (let e of enemies) {
             if (e.dead) continue;
 
             const cx = e.x + e.w/2;
             const cy = e.y + e.h/2;
             const size = e.w / 2;
-
-            const distToPlayer = dist({x: player.x + player.w/2, y: player.y + player.h/2}, {x: cx, y: cy});
-            const isVisible = player.flashlight || distToPlayer < 80;
 
             ctx.shadowColor = e.color;
             ctx.shadowBlur = e.isBoss ? 40 : 20;
@@ -1153,7 +1084,6 @@
             }
         }
 
-        // گلوله‌ها
         for (let b of bullets) {
             ctx.shadowColor = b.color;
             ctx.shadowBlur = 25;
@@ -1168,7 +1098,6 @@
             ctx.shadowBlur = 0;
         }
 
-        // بازیکن
         const px = player.x, py = player.y;
         const cx2 = px + player.w/2, cy2 = py + player.h/2;
 
@@ -1262,7 +1191,6 @@
         ctx.shadowBlur = 0;
         ctx.shadowOffsetY = 0;
 
-        // ذرات
         for (let p of particles) {
             const alpha = p.life / (p.maxLife || 30);
             ctx.globalAlpha = alpha;
@@ -1276,7 +1204,6 @@
         ctx.globalAlpha = 1;
         ctx.shadowBlur = 0;
 
-        // متن‌های شناور
         for (let ft of floatingTexts) {
             const alpha = ft.life / ft.maxLife;
             ctx.globalAlpha = alpha;
@@ -1291,7 +1218,6 @@
         }
         ctx.globalAlpha = 1;
 
-        // HUD روی بوم
         ctx.fillStyle = 'rgba(0,255,0,0.1)';
         ctx.font = '12px "Courier New", monospace';
         ctx.textAlign = 'left';
@@ -1401,9 +1327,6 @@
         ctx.restore();
     }
 
-    // ============================================================
-    // 16. حلقه اصلی
-    // ============================================================
     function gameLoop() {
         if (gameState === 'MENU') {
             gameTime++;
@@ -1416,12 +1339,8 @@
         requestAnimationFrame(gameLoop);
     }
 
-    // ============================================================
-    // 17. ورودی‌ها (اصلاح شده با فوکوس)
-    // ============================================================
     document.addEventListener('keydown', (e) => {
         const key = e.key;
-        // جلوگیری از رفتار پیش‌فرض برای کلیدهای بازی
         if (['w','W','a','A','s','S','d','D',' ','f','F','r','R','Shift'].includes(key)) {
             e.preventDefault();
         }
@@ -1437,7 +1356,6 @@
             if (gameState === 'MENU') { startGame(); }
             else if (gameState === 'GAMEOVER') { startGame(); }
         }
-        // فوکوس روی canvas برای دریافت رویدادهای کیبورد
         canvas.focus();
     });
 
@@ -1454,7 +1372,6 @@
         if (key === ' ') spacePressed = false;
     });
 
-    // ماوس
     canvas.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
@@ -1473,7 +1390,6 @@
     canvas.addEventListener('mouseup', () => { mouseDown = false; });
     canvas.addEventListener('mouseleave', () => { mouseDown = false; });
 
-    // لمسی
     canvas.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const touch = e.touches[0];
@@ -1498,15 +1414,11 @@
     }, { passive: false });
     canvas.addEventListener('touchend', () => { mouseDown = false; });
 
-    // ============================================================
-    // 18. شروع
-    // ============================================================
     gameState = 'MENU';
     gameLoop();
 
     console.log('🔦 DOOM 3 × Poppy Playtime - نسخه کامل');
     console.log('🕹️ WASD حرکت | F چراغ | Space شلیک | R مهمات | Shift دویدن');
-    console.log('👾 هر ۵ مرحله یک غول | مراحل نامحدود');
 
 })();
 </script>
