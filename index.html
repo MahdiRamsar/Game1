@@ -2,208 +2,136 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>🔦 DOOM 3 × Poppy Playtime</title>
-
-    <!-- سیاست امنیتی محتوا (CSP) با nonce -->
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'self'; script-src 'nonce-2026SecureNonce' 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self';" />
 
     <style nonce="2026SecureNonce">
-        /* ================================================================
-           لایه‌بندی CSS (Cascade Layers)
-           ================================================================ */
+        /* ===== لایه‌بندی CSS ===== */
         @layer reset, base, components, utilities, theme;
 
-        /* ---------- RESET ---------- */
         @layer reset {
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                user-select: none;
-            }
-            body {
-                background: #000;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-                font-family: 'Courier New', monospace;
-                overflow: hidden;
-                touch-action: none;
-            }
+            * { margin:0; padding:0; box-sizing:border-box; user-select:none; -webkit-tap-highlight-color:transparent; }
+            body { background:#000; display:flex; justify-content:center; align-items:center; min-height:100dvh; font-family:'Courier New',monospace; overflow:hidden; touch-action:none; }
         }
 
-        /* ---------- BASE ---------- */
         @layer base {
             :root {
-                --bg-dark: #0a0a0a;
-                --border-color: #1a1a3e;
-                --text-green: #0f0;
-                --text-gold: #ffd740;
-                --text-red: #ff1744;
-                --shadow-glow: 0 0 80px rgba(233, 69, 96, 0.15);
-                --radius-lg: 24px;
-                --radius-md: 16px;
-                --font-mono: 'Courier New', monospace;
+                --bg-dark:#0a0a0a; --border-color:#1a1a3e; --text-green:#0f0; --text-gold:#ffd740;
+                --text-red:#ff1744; --shadow-glow:0 0 80px rgba(233,69,96,0.15); --radius-lg:24px; --radius-md:16px;
+                --font-mono:'Courier New',monospace;
             }
-
-            /* احترام به تنظیمات سیستم */
-            @media (prefers-color-scheme: light) {
-                :root {
-                    --bg-dark: #1a1a2e;
-                    --border-color: #3a3a6e;
-                }
-            }
-            @media (prefers-reduced-motion: reduce) {
-                * {
-                    animation-duration: 0.01ms !important;
-                    transition-duration: 0.01ms !important;
-                }
-            }
+            @media (prefers-color-scheme:light){ :root { --bg-dark:#1a1a2e; --border-color:#3a3a6e; } }
+            @media (prefers-reduced-motion:reduce){ * { animation-duration:0.01ms!important; transition-duration:0.01ms!important; } }
         }
 
-        /* ---------- COMPONENTS ---------- */
         @layer components {
             .game-wrapper {
-                background: var(--bg-dark);
-                padding: clamp(8px, 2vw, 20px);
-                border-radius: var(--radius-lg);
-                border: 2px solid var(--border-color);
-                box-shadow: var(--shadow-glow), inset 0 0 60px rgba(0, 0, 0, 0.8);
-                position: relative;
-                width: min(100%, 1040px);
+                background:var(--bg-dark); padding:clamp(6px,1.5vw,16px); border-radius:var(--radius-lg);
+                border:2px solid var(--border-color); box-shadow:var(--shadow-glow),inset 0 0 60px rgba(0,0,0,0.8);
+                position:relative; width:min(100%,1040px); display:flex; flex-direction:column; gap:8px;
             }
-
             canvas#gameCanvas {
-                display: block;
-                width: 100%;
-                height: auto;
-                aspect-ratio: 1000/650;
-                border-radius: var(--radius-md);
-                cursor: crosshair;
-                touch-action: none;
-                background: #0a0a15;
-                outline: none;
-                tabindex: 0;
-                aria-label: "بوم بازی DOOM 3 × Poppy Playtime";
-                role: "application";
+                display:block; width:100%; height:auto; aspect-ratio:1000/650; border-radius:var(--radius-md);
+                cursor:crosshair; touch-action:none; background:#0a0a15; outline:none; tabindex:0;
+                aria-label:"بوم بازی DOOM 3 × Poppy Playtime"; role:"application";
             }
-
             .hud {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: clamp(6px, 1vh, 12px) clamp(12px, 2vw, 24px);
-                margin-top: clamp(8px, 1.5vh, 16px);
-                background: rgba(0, 0, 0, 0.85);
-                border-radius: 30px;
-                border: 1px solid var(--border-color);
-                color: var(--text-green);
-                font-size: clamp(0.6rem, 1.2vw, 0.9rem);
-                flex-wrap: wrap;
-                gap: 6px 12px;
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
+                display:flex; justify-content:space-between; align-items:center; padding:clamp(4px,0.8vh,10px) clamp(8px,1.5vw,20px);
+                background:rgba(0,0,0,0.85); border-radius:30px; border:1px solid var(--border-color);
+                color:var(--text-green); font-size:clamp(0.5rem,1.1vw,0.85rem); flex-wrap:wrap; gap:4px 10px;
+                backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
             }
-
-            .hud-item {
-                display: flex;
-                align-items: center;
-                gap: 4px 8px;
-                text-shadow: 0 0 15px rgba(0, 255, 0, 0.15);
-                white-space: nowrap;
-            }
-            .hud-item .val {
-                color: var(--text-gold);
-                font-weight: bold;
-                min-width: 24px;
-            }
-            .hud-item .val.hp {
-                color: var(--text-red);
-            }
+            .hud-item { display:flex; align-items:center; gap:3px 6px; text-shadow:0 0 15px rgba(0,255,0,0.15); white-space:nowrap; }
+            .hud-item .val { color:var(--text-gold); font-weight:bold; min-width:20px; }
+            .hud-item .val.hp { color:var(--text-red); }
 
             .controls-note {
-                color: #555;
-                text-align: center;
-                margin-top: clamp(6px, 1vh, 12px);
-                font-size: clamp(0.55rem, 1vw, 0.75rem);
-                background: rgba(0, 0, 0, 0.6);
-                padding: 4px 12px;
-                border-radius: 20px;
-                border: 1px solid #1a1a2e;
+                color:#555; text-align:center; font-size:clamp(0.5rem,0.9vw,0.7rem);
+                background:rgba(0,0,0,0.6); padding:3px 10px; border-radius:20px; border:1px solid #1a1a2e;
             }
-            .controls-note kbd {
-                background: #1a1a2e;
-                padding: 2px 10px;
-                border-radius: 4px;
-                color: var(--text-green);
-                border: 1px solid #333;
-                font-size: 0.8em;
-            }
+            .controls-note kbd { background:#1a1a2e; padding:1px 8px; border-radius:4px; color:var(--text-green); border:1px solid #333; font-size:0.8em; }
 
             #focus-hint {
-                position: fixed;
-                bottom: clamp(60px, 12vh, 120px);
-                left: 50%;
-                transform: translateX(-50%);
-                color: var(--text-gold);
-                font-size: clamp(14px, 2vw, 18px);
-                background: rgba(0, 0, 0, 0.85);
-                padding: 10px 24px;
-                border-radius: 30px;
-                border: 1px solid var(--text-gold);
-                font-family: var(--font-mono);
-                z-index: 999;
-                opacity: 0;
-                transition: opacity 0.5s ease;
-                pointer-events: none;
-                text-align: center;
-                max-width: 90vw;
+                position:fixed; bottom:clamp(60px,12vh,120px); left:50%; transform:translateX(-50%);
+                color:var(--text-gold); font-size:clamp(12px,1.8vw,16px); background:rgba(0,0,0,0.85);
+                padding:8px 18px; border-radius:30px; border:1px solid var(--text-gold); font-family:var(--font-mono);
+                z-index:999; opacity:0; transition:opacity 0.5s ease; pointer-events:none; text-align:center;
+                max-width:90vw;
+            }
+
+            /* ===== کنترلر لمسی ===== */
+            .touch-controls {
+                display:none; /* فقط در موبایل نمایش داده می‌شود */
+                position:relative; width:100%; padding:6px 0; gap:6px; justify-content:space-between;
+                touch-action:none; user-select:none;
+            }
+            .touch-controls .dpad {
+                display:grid; grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px);
+                gap:4px; flex-shrink:0;
+            }
+            .touch-controls .dpad button {
+                background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25);
+                border-radius:12px; color:#fff; font-size:20px; display:flex; align-items:center; justify-content:center;
+                backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); touch-action:none;
+                transition:background 0.1s; box-shadow:0 2px 8px rgba(0,0,0,0.4);
+                width:100%; height:100%; padding:0;
+            }
+            .touch-controls .dpad button:active { background:rgba(255,255,255,0.35); }
+            .touch-controls .dpad .empty { background:transparent; border:none; box-shadow:none; pointer-events:none; }
+
+            .touch-controls .action-btns {
+                display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end;
+            }
+            .touch-controls .action-btns button {
+                background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2);
+                border-radius:50%; width:56px; height:56px; color:#fff; font-size:22px;
+                backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+                display:flex; align-items:center; justify-content:center;
+                transition:background 0.1s; box-shadow:0 2px 8px rgba(0,0,0,0.4);
+                touch-action:none;
+            }
+            .touch-controls .action-btns button:active { background:rgba(255,255,255,0.35); }
+            .touch-controls .action-btns .fire { background:rgba(255,23,68,0.3); border-color:#ff1744; }
+            .touch-controls .action-btns .fire:active { background:rgba(255,23,68,0.6); }
+            .touch-controls .action-btns .reload { background:rgba(0,255,0,0.15); border-color:#0f0; }
+            .touch-controls .action-btns .reload:active { background:rgba(0,255,0,0.35); }
+            .touch-controls .action-btns .flashlight { background:rgba(255,215,0,0.15); border-color:#ffd740; }
+            .touch-controls .action-btns .flashlight:active { background:rgba(255,215,0,0.35); }
+
+            @media (pointer:coarse) {
+                .touch-controls { display:flex; }
+                .controls-note { display:none; }
+                /* کوچک‌تر برای صفحه‌های بسیار کوچک */
+                @container (max-width: 500px) {
+                    .touch-controls .dpad { grid-template-columns:repeat(3,40px); grid-template-rows:repeat(3,40px); gap:3px; }
+                    .touch-controls .action-btns button { width:48px; height:48px; font-size:18px; }
+                }
+                @container (max-width: 400px) {
+                    .touch-controls .dpad { grid-template-columns:repeat(3,34px); grid-template-rows:repeat(3,34px); gap:2px; }
+                    .touch-controls .action-btns button { width:42px; height:42px; font-size:16px; }
+                }
+            }
+            @media (pointer:fine) {
+                .touch-controls { display:none !important; }
             }
         }
 
-        /* ---------- UTILITIES ---------- */
         @layer utilities {
-            .visually-hidden {
-                position: absolute !important;
-                width: 1px !important;
-                height: 1px !important;
-                padding: 0 !important;
-                margin: -1px !important;
-                overflow: hidden !important;
-                clip: rect(0, 0, 0, 0) !important;
-                border: 0 !important;
-            }
+            .visually-hidden { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; border:0!important; }
         }
 
-        /* ---------- THEME (تغییرات واکنش‌گرا) ---------- */
         @layer theme {
-            .game-wrapper {
-                container-type: inline-size;
-            }
-            @container (max-width: 600px) {
-                .hud {
-                    font-size: 0.55rem;
-                    padding: 4px 8px;
-                    gap: 3px 6px;
-                }
-                .controls-note {
-                    font-size: 0.5rem;
-                }
-            }
-            @container (max-width: 420px) {
-                .hud-item .val {
-                    min-width: 16px;
-                }
+            .game-wrapper { container-type:inline-size; }
+            @container (max-width:600px) {
+                .hud { font-size:0.5rem; padding:3px 6px; gap:2px 4px; }
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- نشانه دسترسی برای اسکرین‌ریدرها -->
     <div class="visually-hidden" aria-live="polite" id="a11y-status">بازی بارگذاری شد</div>
 
     <div class="game-wrapper">
@@ -222,16 +150,35 @@
             <span class="hud-item">🏆 <span class="val" id="killDisplay">0</span></span>
         </div>
 
+        <!-- کنترلر لمسی -->
+        <div class="touch-controls" id="touchControls" aria-hidden="true">
+            <div class="dpad">
+                <div class="empty"></div>
+                <button data-key="w" aria-label="بالا">▲</button>
+                <div class="empty"></div>
+                <button data-key="a" aria-label="چپ">◀</button>
+                <button data-key="s" aria-label="پایین">▼</button>
+                <button data-key="d" aria-label="راست">▶</button>
+                <div class="empty"></div>
+                <button data-key="shift" aria-label="دویدن">⚡</button>
+                <div class="empty"></div>
+            </div>
+            <div class="action-btns">
+                <button class="fire" data-key="space" aria-label="شلیک">🔫</button>
+                <button class="reload" data-key="r" aria-label="بارگذاری">🔄</button>
+                <button class="flashlight" data-key="f" aria-label="چراغ قوه">💡</button>
+            </div>
+        </div>
+
         <div class="controls-note" id="controls-note" aria-hidden="true">
-            <kbd>W A S D</kbd> حرکت &nbsp;|&nbsp; <kbd>F</kbd> چراغ قوه &nbsp;|&nbsp; <kbd>Space</kbd> شلیک &nbsp;|&nbsp; <kbd>R</kbd> مهمات &nbsp;|&nbsp; <kbd>Shift</kbd> دویدن
+            <kbd>W A S D</kbd> حرکت &nbsp;|&nbsp; <kbd>F</kbd> چراغ &nbsp;|&nbsp; <kbd>Space</kbd> شلیک &nbsp;|&nbsp; <kbd>R</kbd> مهمات &nbsp;|&nbsp; <kbd>Shift</kbd> دویدن
         </div>
     </div>
 
-    <!-- پیام راهنما برای کیبورد -->
-    <div id="focus-hint" role="alert" aria-live="assertive">🎮 برای استفاده از کیبورد (WASD, Space, F, R)، روی صفحه کلیک کنید</div>
+    <div id="focus-hint" role="alert" aria-live="assertive">🎮 برای استفاده از کیبورد، روی صفحه کلیک کنید</div>
 
     <!-- ================================================================
-    اسکریپت اصلی – تمام کد در یک ماژول واحد (بدون نیاز به فایل‌های جداگانه)
+    اسکریپت اصلی – یکپارچه و کامل
     ================================================================ -->
     <script type="module" nonce="2026SecureNonce">
         'use strict';
@@ -331,9 +278,7 @@
         // ================================================================
         // 2. توابع کمکی
         // ================================================================
-        function dist(a, b) {
-            return Math.hypot(a.x - b.x, a.y - b.y);
-        }
+        function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
         function rectCollide(a, b) {
             return a.x < b.x + b.w && a.x + a.w > b.x &&
                    a.y < b.y + b.h && a.y + a.h > b.y;
@@ -341,10 +286,9 @@
         function rand(min, max) { return Math.random() * (max - min) + min; }
         function randInt(min, max) { return Math.floor(rand(min, max + 1)); }
         function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
-        function lerp(a, b, t) { return a + (b - a) * t; }
 
         // ================================================================
-        // 3. Object Pool (برای گلوله، ذرات، متن شناور)
+        // 3. Object Pool
         // ================================================================
         class ObjectPool {
             constructor(factory, reset, initialSize = 0) {
@@ -363,16 +307,12 @@
                 }
                 return this.factory();
             }
-            release(obj) {
-                this.pool.push(obj);
-            }
-            clear() {
-                this.pool = [];
-            }
+            release(obj) { this.pool.push(obj); }
+            clear() { this.pool = []; }
         }
 
         // ================================================================
-        // 4. مدیریت ورودی (کیبورد، ماوس، تاچ، گیم‌پد)
+        // 4. مدیریت ورودی (کیبورد، ماوس، تاچ، گیم‌پد + کنترلر لمسی)
         // ================================================================
         class InputManager {
             constructor(canvas) {
@@ -385,6 +325,7 @@
                 this.canvas = canvas;
                 this.abortController = new AbortController();
                 this._bindEvents();
+                this._bindTouchControls();
             }
 
             _bindEvents() {
@@ -392,7 +333,7 @@
                 const doc = document;
                 const c = this.canvas;
 
-                // کیبورد
+                // کیبورد (روی document تا همیشه کار کند)
                 doc.addEventListener('keydown', (e) => {
                     const key = e.key;
                     if (['w','W','a','A','s','S','d','D',' ','f','F','r','R','Shift','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(key)) {
@@ -405,6 +346,10 @@
                     if (key === 'Shift') this.keys.shift = true;
                     if (key === ' ') this.spacePressed = true;
                     if (key === 'f' || key === 'F') this.fPressed = true;
+                    if (key === 'r' || key === 'R') {
+                        // رویداد reload از بیرون مدیریت می‌شود
+                        this._reloadRequested = true;
+                    }
                 }, { signal });
 
                 doc.addEventListener('keyup', (e) => {
@@ -437,7 +382,7 @@
                 c.addEventListener('mouseup', () => { this.mouseDown = false; }, { signal });
                 c.addEventListener('mouseleave', () => { this.mouseDown = false; }, { signal });
 
-                // لمسی
+                // لمسی روی خود کانواس (برای نشانه‌روی و شلیک)
                 c.addEventListener('touchstart', (e) => {
                     e.preventDefault();
                     const touch = e.touches[0];
@@ -461,10 +406,74 @@
 
                 c.addEventListener('touchend', () => { this.mouseDown = false; }, { signal });
 
-                // گیم‌پد: هر فریم توسط حلقه اصلی چک می‌شود
+                // گیم‌پد: هر فریم چک می‌شود
             }
 
-            // به‌روزرسانی گیم‌پد (هر فریم صدا زده شود)
+            _bindTouchControls() {
+                // دکمه‌های لمسی که در DOM اضافه شده‌اند
+                const container = document.getElementById('touchControls');
+                if (!container) return;
+                const signal = this.abortController.signal;
+
+                // نگاشت دکمه‌ها به کلیدهای مجازی
+                const mapKey = (key) => {
+                    if (key === 'w' || key === 'a' || key === 's' || key === 'd' || key === 'shift') {
+                        return { type: 'move', key };
+                    }
+                    if (key === 'space') return { type: 'action', action: 'space' };
+                    if (key === 'f') return { type: 'action', action: 'f' };
+                    if (key === 'r') return { type: 'action', action: 'r' };
+                    return null;
+                };
+
+                const handleStart = (e, key) => {
+                    e.preventDefault();
+                    const mapped = mapKey(key);
+                    if (!mapped) return;
+                    if (mapped.type === 'move') {
+                        this.keys[mapped.key] = true;
+                    } else if (mapped.type === 'action') {
+                        if (mapped.action === 'space') this.spacePressed = true;
+                        else if (mapped.action === 'f') this.fPressed = true;
+                        else if (mapped.action === 'r') this._reloadRequested = true;
+                    }
+                };
+
+                const handleEnd = (e, key) => {
+                    e.preventDefault();
+                    const mapped = mapKey(key);
+                    if (!mapped) return;
+                    if (mapped.type === 'move') {
+                        this.keys[mapped.key] = false;
+                    } else if (mapped.type === 'action') {
+                        if (mapped.action === 'space') this.spacePressed = false;
+                        else if (mapped.action === 'f') this.fPressed = false;
+                    }
+                };
+
+                // همه دکمه‌های داخل container
+                const buttons = container.querySelectorAll('button[data-key]');
+                for (const btn of buttons) {
+                    const key = btn.dataset.key;
+                    btn.addEventListener('touchstart', (e) => handleStart(e, key), { signal, passive: false });
+                    btn.addEventListener('touchend', (e) => handleEnd(e, key), { signal, passive: false });
+                    btn.addEventListener('touchcancel', (e) => handleEnd(e, key), { signal, passive: false });
+                    // برای mouse (تست روی دسکتاپ)
+                    btn.addEventListener('mousedown', (e) => handleStart(e, key), { signal });
+                    btn.addEventListener('mouseup', (e) => handleEnd(e, key), { signal });
+                    btn.addEventListener('mouseleave', (e) => handleEnd(e, key), { signal });
+                }
+            }
+
+            // چک کردن درخواست reload (از بیرون خوانده شود)
+            consumeReloadRequest() {
+                if (this._reloadRequested) {
+                    this._reloadRequested = false;
+                    return true;
+                }
+                return false;
+            }
+
             updateGamepad() {
                 const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
                 for (const gp of gamepads) {
@@ -481,16 +490,15 @@
                         this.keys.s = ay > 0.3;
                     }
                     if (buttons.length >= 8) {
-                        this.spacePressed = buttons[0]?.pressed || false; // A
-                        this.keys.shift = buttons[7]?.pressed || false;   // RB
-                        if (buttons[2]?.pressed) this.fPressed = true;    // X
-                        if (buttons[3]?.pressed) this.fPressed = true;    // Y
+                        this.spacePressed = buttons[0]?.pressed || false;
+                        this.keys.shift = buttons[7]?.pressed || false;
+                        if (buttons[2]?.pressed) this.fPressed = true;
+                        if (buttons[3]?.pressed) this.fPressed = true;
                     }
                     break;
                 }
             }
 
-            // رویداد Enter برای شروع
             onKeyEnter(callback) {
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') callback();
@@ -503,35 +511,19 @@
         }
 
         // ================================================================
-        // 5. مدیریت منابع (تصاویر، صداها)
+        // 5. مدیریت منابع (صدا)
         // ================================================================
         class AssetManager {
             constructor() {
-                this.images = new Map();
                 this.sounds = new Map();
                 this.audioCtx = null;
             }
-
             initAudio() {
                 if (!this.audioCtx) {
                     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 }
                 return this.audioCtx;
             }
-
-            async loadImage(name, url) {
-                if (this.images.has(name)) return this.images.get(name);
-                return new Promise((resolve) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        this.images.set(name, img);
-                        resolve(img);
-                    };
-                    img.onerror = () => resolve(null);
-                    img.src = url;
-                });
-            }
-
             async loadSound(name, url) {
                 if (this.sounds.has(name)) return this.sounds.get(name);
                 const ctx = this.initAudio();
@@ -541,11 +533,8 @@
                     const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
                     this.sounds.set(name, audioBuffer);
                     return audioBuffer;
-                } catch {
-                    return null;
-                }
+                } catch { return null; }
             }
-
             playSound(name, volume = 0.3) {
                 const buffer = this.sounds.get(name);
                 if (!buffer || !this.audioCtx) return;
@@ -560,7 +549,7 @@
         }
 
         // ================================================================
-        // 6. عناصر DOM و متغیرهای سراسری
+        // 6. عناصر DOM
         // ================================================================
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -574,46 +563,30 @@
         const statusEl = document.getElementById('a11y-status');
 
         // ================================================================
-        // 7. مدیریت ورودی و منابع
+        // 7. ورودی و منابع
         // ================================================================
         const input = new InputManager(canvas);
         const assets = new AssetManager();
 
         // ================================================================
-        // 8. State Machine
+        // 8. State
         // ================================================================
-        const GameState = {
-            MENU: 'MENU',
-            PLAYING: 'PLAYING',
-            GAMEOVER: 'GAMEOVER'
-        };
-
+        const GameState = { MENU: 'MENU', PLAYING: 'PLAYING', GAMEOVER: 'GAMEOVER' };
         let state = GameState.MENU;
-        let score = 0;
-        let kills = 0;
-        let level = 1;
-        let gameTime = 0;          // بر حسب فریم
-        let deltaTime = 0;         // ثانیه
-        let screenShake = 0;
-        let levelEnemyCount = 0;
-        let enemiesSpawned = 0;
-        let bossActive = false;
-        let bossDefeated = false;
-        let levelComplete = false;
+        let score = 0, kills = 0, level = 1;
+        let gameTime = 0, deltaTime = 0, screenShake = 0;
+        let levelEnemyCount = 0, enemiesSpawned = 0;
+        let bossActive = false, bossDefeated = false, levelComplete = false;
         let lastTimestamp = 0;
 
         // ================================================================
         // 9. بازیکن
         // ================================================================
         const player = {
-            x: 500, y: 325,
-            w: 32, h: 38,
-            speed: 180,            // پیکسل در ثانیه
-            sprintMultiplier: 1.6,
-            hp: 100,
-            maxHp: 100,
-            ammo: 12,
-            maxAmmo: 12,
+            x: 500, y: 325, w: 32, h: 38,
+            speed: 180, sprintMultiplier: 1.6,
+            hp: 100, maxHp: 100,
+            ammo: 12, maxAmmo: 12,
             flashlight: false,
             angle: 0,
             shootCooldown: 0,
@@ -627,35 +600,32 @@
         // ================================================================
         // 10. Object Pools
         // ================================================================
-        // گلوله
         function bulletFactory() {
-            return { x: 0, y: 0, vx: 0, vy: 0, life: 0, damage: 20, radius: 4, color: '#00ff88', active: false };
+            return { x:0, y:0, vx:0, vy:0, life:0, damage:20, radius:4, color:'#00ff88', active:false };
         }
         function bulletReset(b) {
-            b.x = 0; b.y = 0; b.vx = 0; b.vy = 0; b.life = 0; b.damage = 20; b.radius = 4; b.color = '#00ff88'; b.active = false;
+            b.x=0; b.y=0; b.vx=0; b.vy=0; b.life=0; b.damage=20; b.radius=4; b.color='#00ff88'; b.active=false;
         }
         const bulletPool = new ObjectPool(bulletFactory, bulletReset, 30);
 
-        // ذره
         function particleFactory() {
-            return { x: 0, y: 0, vx: 0, vy: 0, life: 0, maxLife: 30, color: '#fff', size: 4, active: false };
+            return { x:0, y:0, vx:0, vy:0, life:0, maxLife:30, color:'#fff', size:4, active:false };
         }
         function particleReset(p) {
-            p.x = 0; p.y = 0; p.vx = 0; p.vy = 0; p.life = 0; p.maxLife = 30; p.color = '#fff'; p.size = 4; p.active = false;
+            p.x=0; p.y=0; p.vx=0; p.vy=0; p.life=0; p.maxLife=30; p.color='#fff'; p.size=4; p.active=false;
         }
         const particlePool = new ObjectPool(particleFactory, particleReset, 100);
 
-        // متن شناور
         function floatTextFactory() {
-            return { x: 0, y: 0, text: '', color: '#fff', size: 20, life: 0, maxLife: 50, vy: -1.2, active: false };
+            return { x:0, y:0, text:'', color:'#fff', size:20, life:0, maxLife:50, vy:-1.2, active:false };
         }
         function floatTextReset(f) {
-            f.x = 0; f.y = 0; f.text = ''; f.color = '#fff'; f.size = 20; f.life = 0; f.maxLife = 50; f.vy = -1.2; f.active = false;
+            f.x=0; f.y=0; f.text=''; f.color='#fff'; f.size=20; f.life=0; f.maxLife=50; f.vy=-1.2; f.active=false;
         }
         const floatTextPool = new ObjectPool(floatTextFactory, floatTextReset, 20);
 
         // ================================================================
-        // 11. آرایه‌های اصلی بازی
+        // 11. آرایه‌های بازی
         // ================================================================
         let enemies = [];
         let ammoPickups = [];
@@ -665,15 +635,14 @@
         const activeFloatTexts = [];
 
         // ================================================================
-        // 12. توابع تولید اشیاء
+        // 12. توابع تولید
         // ================================================================
         function createParticles(x, y, color, count = 12, speed = 5, life = 30) {
             for (let i = 0; i < count; i++) {
                 const p = particlePool.acquire();
                 const angle = rand(0, Math.PI * 2);
                 const spd = rand(1, speed);
-                p.x = x;
-                p.y = y;
+                p.x = x; p.y = y;
                 p.vx = Math.cos(angle) * spd;
                 p.vy = Math.sin(angle) * spd - 0.5;
                 p.life = rand(life * 0.5, life);
@@ -687,22 +656,14 @@
 
         function addFloatingText(x, y, text, color = '#fff', size = 20) {
             const f = floatTextPool.acquire();
-            f.x = x;
-            f.y = y;
-            f.text = text;
-            f.color = color;
-            f.size = size;
-            f.life = 50;
-            f.maxLife = 50;
-            f.vy = -1.2;
-            f.active = true;
+            f.x = x; f.y = y; f.text = text; f.color = color; f.size = size;
+            f.life = 50; f.maxLife = 50; f.vy = -1.2; f.active = true;
             activeFloatTexts.push(f);
         }
 
         function spawnBullet(x, y, angle, speed, damage, color = '#00ff88') {
             const b = bulletPool.acquire();
-            b.x = x;
-            b.y = y;
+            b.x = x; b.y = y;
             const spread = 0.04;
             const a = angle + rand(-spread, spread);
             b.vx = Math.cos(a) * speed;
@@ -716,7 +677,7 @@
         }
 
         // ================================================================
-        // 13. تولید دشمنان و باس
+        // 13. دشمنان و باس
         // ================================================================
         function spawnEnemy(type = null) {
             const side = randInt(0, 3);
@@ -730,34 +691,21 @@
             const types = Object.keys(ENEMY_TYPES);
             const selected = type || types[randInt(0, types.length - 1)];
             const data = ENEMY_TYPES[selected];
-
             const levelScale = 1 + (level - 1) * 0.12;
             const hpScale = 1 + (level - 1) * 0.08;
 
             enemies.push({
-                x, y,
-                w: data.size, h: data.size,
-                hp: data.hp * hpScale,
-                maxHp: data.hp * hpScale,
+                x, y, w: data.size, h: data.size,
+                hp: data.hp * hpScale, maxHp: data.hp * hpScale,
                 speed: data.speed * levelScale * (0.9 + Math.random() * 0.2),
                 type: selected,
-                color: data.color,
-                colorDark: data.colorDark,
-                colorLight: data.colorLight,
+                color: data.color, colorDark: data.colorDark, colorLight: data.colorLight,
                 score: Math.round(data.score * (1 + (level-1) * 0.05)),
                 damage: data.damage * (1 + (level-1) * 0.06),
-                eyeColor: data.eyeColor,
-                mouthColor: data.mouthColor,
-                state: 'chase',
-                stunTimer: 0,
-                attackCooldown: 0,
-                name: data.name,
-                isBoss: false,
-                dead: false,
-                phase: 0,
-                spawnX: x,
-                spawnY: y,
-                patrolTimer: rand(0, 100)
+                eyeColor: data.eyeColor, mouthColor: data.mouthColor,
+                state: 'chase', stunTimer: 0, attackCooldown: 0,
+                name: data.name, isBoss: false, dead: false,
+                phase: 0, spawnX: x, spawnY: y, patrolTimer: rand(0, 100)
             });
             enemiesSpawned++;
         }
@@ -774,35 +722,21 @@
             const types = Object.keys(BOSS_TYPES);
             const selected = types[randInt(0, types.length - 1)];
             const data = BOSS_TYPES[selected];
-
             const levelScale = 1 + (level - 1) * 0.08;
 
             enemies.push({
-                x, y,
-                w: data.size, h: data.size,
-                hp: data.hp * levelScale,
-                maxHp: data.hp * levelScale,
+                x, y, w: data.size, h: data.size,
+                hp: data.hp * levelScale, maxHp: data.hp * levelScale,
                 speed: data.speed * (0.9 + Math.random() * 0.2),
                 type: selected,
-                color: data.color,
-                colorDark: data.colorDark,
-                colorLight: data.colorLight,
+                color: data.color, colorDark: data.colorDark, colorLight: data.colorLight,
                 score: data.score,
                 damage: data.damage * (1 + (level-1) * 0.05),
-                eyeColor: data.eyeColor,
-                mouthColor: data.mouthColor,
-                state: 'chase',
-                stunTimer: 0,
-                attackCooldown: 0,
-                name: data.name,
-                isBoss: true,
-                dead: false,
-                phase: 0,
-                spawnX: x,
-                spawnY: y,
-                patrolTimer: 0,
-                rageMode: false,
-                rageThreshold: 0.5
+                eyeColor: data.eyeColor, mouthColor: data.mouthColor,
+                state: 'chase', stunTimer: 0, attackCooldown: 0,
+                name: data.name, isBoss: true, dead: false,
+                phase: 0, spawnX: x, spawnY: y, patrolTimer: 0,
+                rageMode: false, rageThreshold: 0.5
             });
             bossActive = true;
             bossDefeated = false;
@@ -813,7 +747,7 @@
         }
 
         // ================================================================
-        // 14. شروع مرحله
+        // 14. شروع مرحله و بازی
         // ================================================================
         function startLevel() {
             levelEnemyCount = 5 + level * 2;
@@ -821,58 +755,35 @@
             bossActive = false;
             bossDefeated = false;
             levelComplete = false;
-
             enemies = enemies.filter(e => e.dead);
 
             const initialCount = Math.min(3 + Math.floor(level / 2), 8);
             for (let i = 0; i < initialCount; i++) {
                 setTimeout(() => spawnEnemy(null), i * 300);
             }
-
             for (let i = 0; i < Math.min(2 + level, 6); i++) {
                 setTimeout(() => {
-                    ammoPickups.push({
-                        x: rand(50, W-50),
-                        y: rand(50, H-50),
-                        w: 16, h: 16,
-                        collected: false,
-                        amount: 3 + randInt(0, 3)
-                    });
+                    ammoPickups.push({ x: rand(50, W-50), y: rand(50, H-50), w:16, h:16, collected:false, amount: 3 + randInt(0,3) });
                 }, 500 + i * 200);
             }
             for (let i = 0; i < Math.min(1 + Math.floor(level/3), 4); i++) {
                 setTimeout(() => {
-                    healthPickups.push({
-                        x: rand(50, W-50),
-                        y: rand(50, H-50),
-                        w: 16, h: 16,
-                        collected: false,
-                        amount: 15 + randInt(0, 15)
-                    });
+                    healthPickups.push({ x: rand(50, W-50), y: rand(50, H-50), w:16, h:16, collected:false, amount: 15 + randInt(0,15) });
                 }, 800 + i * 300);
             }
-
             addFloatingText(W/2, 80, `📍 مرحله ${level}`, '#4CAF50', 28);
             updateHUD();
             statusEl.textContent = `مرحله ${level} شروع شد`;
         }
 
-        // ================================================================
-        // 15. شروع بازی
-        // ================================================================
         function startGame() {
             state = GameState.PLAYING;
-            score = 0;
-            kills = 0;
-            level = 1;
-            gameTime = 0;
-            screenShake = 0;
+            score = 0; kills = 0; level = 1;
+            gameTime = 0; screenShake = 0;
             player.x = 500; player.y = 325;
-            player.hp = 100;
-            player.ammo = 12;
+            player.hp = 100; player.ammo = 12;
             player.flashlight = false;
-            player.reloading = false;
-            player.reloadTimer = 0;
+            player.reloading = false; player.reloadTimer = 0;
             player.damageCooldown = 0;
             enemies = [];
             activeBullets.length = 0;
@@ -880,31 +791,25 @@
             activeFloatTexts.length = 0;
             ammoPickups = [];
             healthPickups = [];
-            bossActive = false;
-            bossDefeated = false;
-            levelComplete = false;
+            bossActive = false; bossDefeated = false; levelComplete = false;
             canvas.focus();
             startLevel();
             const hint = document.getElementById('focus-hint');
             if (hint) hint.style.opacity = '0';
             statusEl.textContent = 'بازی شروع شد';
             assets.initAudio();
-            // بارگذاری صداهای نمونه (placeholder)
             assets.loadSound('shoot', 'data:audio/wav;base64,U3R1ZmYgd2F2');
             assets.loadSound('boss', 'data:audio/wav;base64,U3R1ZmYgd2F2');
         }
 
         // ================================================================
-        // 16. شلیک و بارگذاری مجدد
+        // 15. شلیک و بارگذاری
         // ================================================================
         function shoot() {
             if (state !== GameState.PLAYING) return;
             if (player.reloading) return;
             if (player.shootCooldown > 0) return;
-            if (player.ammo <= 0) {
-                startReload();
-                return;
-            }
+            if (player.ammo <= 0) { startReload(); return; }
 
             player.ammo--;
             player.shootCooldown = 8;
@@ -917,12 +822,7 @@
             const speed = 10 + (level * 0.1);
             const dmg = 20 + Math.floor(level / 3) * 2;
 
-            spawnBullet(
-                cx + Math.cos(ang) * 25,
-                cy + Math.sin(ang) * 25,
-                ang, speed, dmg, '#00ff88'
-            );
-
+            spawnBullet(cx + Math.cos(ang)*25, cy + Math.sin(ang)*25, ang, speed, dmg, '#00ff88');
             createParticles(cx + Math.cos(ang)*25, cy + Math.sin(ang)*25, '#ffd740', 6, 3, 12);
             createParticles(cx + Math.cos(ang)*25, cy + Math.sin(ang)*25, '#ff6f00', 4, 2, 8);
             assets.playSound('shoot', 0.2);
@@ -937,9 +837,6 @@
             addFloatingText(player.x, player.y - 35, '🔄 بارگذاری...', '#0f0');
         }
 
-        // ================================================================
-        // 17. HUD
-        // ================================================================
         function updateHUD() {
             hpSpan.textContent = Math.max(0, Math.round(player.hp));
             ammoSpan.textContent = player.reloading ? '...' : player.ammo;
@@ -952,11 +849,10 @@
         }
 
         // ================================================================
-        // 18. بروزرسانی (با delta time)
+        // 16. بروزرسانی
         // ================================================================
         function update(dt) {
             if (state !== GameState.PLAYING) return;
-
             const cappedDt = Math.min(dt, 0.05);
             gameTime++;
 
@@ -969,6 +865,11 @@
                     addFloatingText(player.x, player.y - 35, '✅ کامل شد!', '#0f0');
                     updateHUD();
                 }
+            }
+
+            // درخواست reload از ورودی
+            if (input.consumeReloadRequest()) {
+                startReload();
             }
 
             // کولداون‌ها
@@ -1005,10 +906,10 @@
             // شلیک
             if (input.spacePressed || input.mouseDown) shoot();
 
-            // به‌روزرسانی گیم‌پد
+            // گیم‌پد
             input.updateGamepad();
 
-            // ---- بروزرسانی گلوله‌ها ----
+            // --- گلوله‌ها ---
             for (let i = activeBullets.length - 1; i >= 0; i--) {
                 const b = activeBullets[i];
                 b.x += b.vx * (cappedDt * 60);
@@ -1020,13 +921,11 @@
                     activeBullets.splice(i, 1);
                     continue;
                 }
-
                 let hit = false;
                 for (let j = enemies.length - 1; j >= 0; j--) {
                     const e = enemies[j];
                     if (e.dead) continue;
-                    if (b.x > e.x && b.x < e.x + e.w &&
-                        b.y > e.y && b.y < e.y + e.h) {
+                    if (b.x > e.x && b.x < e.x + e.w && b.y > e.y && b.y < e.y + e.h) {
                         e.hp -= b.damage;
                         createParticles(b.x, b.y, e.color, 12, 4, 20);
                         if (e.hp <= 0) {
@@ -1036,7 +935,6 @@
                             createParticles(e.x + e.w/2, e.y + e.h/2, '#ffd740', 25, 6, 30);
                             addFloatingText(e.x, e.y, `+${e.score} ⭐`, '#ffd740');
                             screenShake = Math.max(screenShake, 4);
-
                             if (e.isBoss) {
                                 bossActive = false;
                                 bossDefeated = true;
@@ -1045,22 +943,10 @@
                                 screenShake = 20;
                                 score += 50;
                                 for (let p = 0; p < 3; p++) {
-                                    ammoPickups.push({
-                                        x: e.x + rand(-30, 30) + e.w/2,
-                                        y: e.y + rand(-30, 30) + e.h/2,
-                                        w: 16, h: 16,
-                                        collected: false,
-                                        amount: 4
-                                    });
+                                    ammoPickups.push({ x: e.x + rand(-30,30) + e.w/2, y: e.y + rand(-30,30) + e.h/2, w:16, h:16, collected:false, amount:4 });
                                 }
                                 for (let p = 0; p < 2; p++) {
-                                    healthPickups.push({
-                                        x: e.x + rand(-30, 30) + e.w/2,
-                                        y: e.y + rand(-30, 30) + e.h/2,
-                                        w: 16, h: 16,
-                                        collected: false,
-                                        amount: 25
-                                    });
+                                    healthPickups.push({ x: e.x + rand(-30,30) + e.w/2, y: e.y + rand(-30,30) + e.h/2, w:16, h:16, collected:false, amount:25 });
                                 }
                                 assets.playSound('boss', 0.4);
                             }
@@ -1076,31 +962,23 @@
                 }
             }
 
-            // ---- دشمنان ----
+            // --- دشمنان ---
             for (let i = enemies.length - 1; i >= 0; i--) {
                 const e = enemies[i];
                 if (e.dead) continue;
-
-                if (e.stunTimer > 0) {
-                    e.stunTimer--;
-                    if (e.stunTimer === 0) e.state = 'chase';
-                    continue;
-                }
-
+                if (e.stunTimer > 0) { e.stunTimer--; if (e.stunTimer === 0) e.state = 'chase'; continue; }
                 if (e.attackCooldown > 0) e.attackCooldown--;
 
                 const dx2 = (player.x + player.w/2) - (e.x + e.w/2);
                 const dy2 = (player.y + player.h/2) - (e.y + e.h/2);
                 const d = Math.sqrt(dx2*dx2 + dy2*dy2);
-
                 const chaseDist = e.isBoss ? 400 : 300;
 
                 if (d > 10 && d < chaseDist) {
                     const spd = e.speed * (1 + gameTime / 300000);
                     const mx = (dx2 / d) * spd * (cappedDt * 60);
                     const my = (dy2 / d) * spd * (cappedDt * 60);
-                    e.x += mx;
-                    e.y += my;
+                    e.x += mx; e.y += my;
                     e.x = clamp(e.x, -30, W - e.w + 30);
                     e.y = clamp(e.y, -30, H - e.h + 30);
                 } else if (d >= chaseDist) {
@@ -1128,14 +1006,10 @@
                         screenShake = Math.max(screenShake, 10);
                         createParticles(player.x + player.w/2, player.y + player.h/2, '#f00', 20, 5, 25);
                         addFloatingText(player.x, player.y - 20, `-${Math.round(dmg)}`, '#f00');
-                        if (d > 5) {
-                            e.x -= (dx2 / d) * 35;
-                            e.y -= (dy2 / d) * 35;
-                        }
+                        if (d > 5) { e.x -= (dx2 / d) * 35; e.y -= (dy2 / d) * 35; }
                         e.stunTimer = 15;
                         e.state = 'stunned';
                         updateHUD();
-
                         if (player.hp <= 0) {
                             state = GameState.GAMEOVER;
                             statusEl.textContent = 'بازی تمام شد';
@@ -1143,13 +1017,10 @@
                         }
                     }
                 }
-
-                if (e.isBoss && e.hp / e.maxHp < 0.3) {
-                    e.eyeColor = '#FF0000';
-                }
+                if (e.isBoss && e.hp / e.maxHp < 0.3) e.eyeColor = '#FF0000';
             }
 
-            // ---- آیتم‌ها ----
+            // --- آیتم‌ها ---
             for (let i = ammoPickups.length - 1; i >= 0; i--) {
                 const item = ammoPickups[i];
                 if (item.collected) continue;
@@ -1162,7 +1033,6 @@
                     updateHUD();
                 }
             }
-
             for (let i = healthPickups.length - 1; i >= 0; i--) {
                 const item = healthPickups[i];
                 if (item.collected) continue;
@@ -1176,33 +1046,27 @@
                 }
             }
 
-            // ---- تولید دشمنان جدید ----
+            // --- تولید دشمنان ---
             const aliveEnemies = enemies.filter(e => !e.dead).length;
             const needMore = levelEnemyCount - enemiesSpawned;
             if (needMore > 0 && aliveEnemies < 3 + Math.floor(level / 2)) {
-                if (gameTime % 60 === 0 && Math.random() < 0.1) {
-                    spawnEnemy(null);
-                }
+                if (gameTime % 60 === 0 && Math.random() < 0.1) spawnEnemy(null);
             }
 
-            // ---- بررسی باس ----
+            // --- بررسی باس ---
             if (!bossActive && !bossDefeated && enemiesSpawned >= levelEnemyCount) {
                 const alive = enemies.filter(e => !e.dead).length;
                 if (alive === 0) {
-                    if (level % 5 === 0) {
-                        spawnBoss();
-                    } else {
+                    if (level % 5 === 0) spawnBoss();
+                    else {
                         levelComplete = true;
                         level++;
                         addFloatingText(W/2, 100, `✅ مرحله ${level-1} کامل شد!`, '#4CAF50', 30);
                         statusEl.textContent = `مرحله ${level-1} کامل شد`;
-                        setTimeout(() => {
-                            startLevel();
-                        }, 1500);
+                        setTimeout(() => startLevel(), 1500);
                     }
                 }
             }
-
             if (bossDefeated && !bossActive) {
                 const alive = enemies.filter(e => !e.dead).length;
                 if (alive === 0) {
@@ -1210,14 +1074,12 @@
                     level++;
                     addFloatingText(W/2, 100, `🎉 مرحله ${level-1} با باس کامل شد!`, '#ffd740', 30);
                     statusEl.textContent = `مرحله ${level-1} با باس کامل شد`;
-                    setTimeout(() => {
-                        startLevel();
-                    }, 2000);
+                    setTimeout(() => startLevel(), 2000);
                     bossDefeated = false;
                 }
             }
 
-            // ---- ذرات ----
+            // --- ذرات ---
             for (let i = activeParticles.length - 1; i >= 0; i--) {
                 const p = activeParticles[i];
                 p.x += p.vx * (cappedDt * 60);
@@ -1231,8 +1093,6 @@
                     activeParticles.splice(i, 1);
                 }
             }
-
-            // ---- متن شناور ----
             for (let i = activeFloatTexts.length - 1; i >= 0; i--) {
                 const ft = activeFloatTexts[i];
                 ft.y += ft.vy * (cappedDt * 60);
@@ -1244,575 +1104,294 @@
                     activeFloatTexts.splice(i, 1);
                 }
             }
-
-            // ---- لرزش ----
             if (screenShake > 0) screenShake *= 0.93;
             if (screenShake < 0.1) screenShake = 0;
-
             updateHUD();
         }
 
         // ================================================================
-        // 19. رسم (رندرینگ)
+        // 17. رسم (رندرینگ)
         // ================================================================
         function draw() {
             ctx.save();
-
             if (screenShake > 0.5) {
-                const sx = (Math.random() - 0.5) * screenShake * 1.8;
-                const sy = (Math.random() - 0.5) * screenShake * 1.8;
-                ctx.translate(sx, sy);
+                ctx.translate((Math.random()-0.5)*screenShake*1.8, (Math.random()-0.5)*screenShake*1.8);
             }
 
             // پس‌زمینه
-            const grad = ctx.createRadialGradient(500, 325, 100, 500, 325, 550);
-            grad.addColorStop(0, '#1a1a3e');
-            grad.addColorStop(0.4, '#0f0f2a');
-            grad.addColorStop(0.7, '#080818');
-            grad.addColorStop(1, '#000000');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, W, H);
+            const grad = ctx.createRadialGradient(500,325,100,500,325,550);
+            grad.addColorStop(0,'#1a1a3e'); grad.addColorStop(0.4,'#0f0f2a'); grad.addColorStop(0.7,'#080818'); grad.addColorStop(1,'#000');
+            ctx.fillStyle = grad; ctx.fillRect(0,0,W,H);
 
-            ctx.strokeStyle = 'rgba(40,40,80,0.12)';
-            ctx.lineWidth = 1;
-            for (let i = 0; i < W; i += 45) {
-                ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i, H);
-                ctx.stroke();
-            }
-            for (let i = 0; i < H; i += 45) {
-                ctx.beginPath();
-                ctx.moveTo(0, i);
-                ctx.lineTo(W, i);
-                ctx.stroke();
-            }
+            ctx.strokeStyle = 'rgba(40,40,80,0.12)'; ctx.lineWidth = 1;
+            for (let i=0; i<W; i+=45) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,H); ctx.stroke(); }
+            for (let i=0; i<H; i+=45) { ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(W,i); ctx.stroke(); }
 
             ctx.fillStyle = 'rgba(255,255,200,0.02)';
-            for (let i = 0; i < 8; i++) {
-                const lx = (i * 137 + Math.sin(gameTime * 0.001 + i) * 50) % W;
-                const ly = (i * 97 + Math.cos(gameTime * 0.001 + i * 2) * 30) % H;
-                ctx.beginPath();
-                ctx.arc(lx, ly, 30 + Math.sin(gameTime * 0.005 + i) * 15, 0, Math.PI * 2);
-                ctx.fill();
+            for (let i=0; i<8; i++) {
+                const lx = (i*137 + Math.sin(gameTime*0.001+i)*50) % W;
+                const ly = (i*97 + Math.cos(gameTime*0.001+i*2)*30) % H;
+                ctx.beginPath(); ctx.arc(lx, ly, 30+Math.sin(gameTime*0.005+i)*15, 0, Math.PI*2); ctx.fill();
             }
 
             // تاریکی / چراغ قوه
             if (!player.flashlight) {
-                const grd = ctx.createRadialGradient(
-                    player.x + player.w/2, player.y + player.h/2, 20,
-                    player.x + player.w/2, player.y + player.h/2, 160
-                );
-                grd.addColorStop(0, 'rgba(0,0,0,0)');
-                grd.addColorStop(0.4, 'rgba(0,0,0,0.4)');
-                grd.addColorStop(0.7, 'rgba(0,0,0,0.7)');
-                grd.addColorStop(1, 'rgba(0,0,0,0.95)');
-                ctx.fillStyle = grd;
-                ctx.fillRect(0, 0, W, H);
+                const grd = ctx.createRadialGradient(player.x+player.w/2, player.y+player.h/2, 20, player.x+player.w/2, player.y+player.h/2, 160);
+                grd.addColorStop(0,'rgba(0,0,0,0)'); grd.addColorStop(0.4,'rgba(0,0,0,0.4)'); grd.addColorStop(0.7,'rgba(0,0,0,0.7)'); grd.addColorStop(1,'rgba(0,0,0,0.95)');
+                ctx.fillStyle = grd; ctx.fillRect(0,0,W,H);
             } else {
                 const ang = player.angle;
-                const grd = ctx.createRadialGradient(
-                    player.x + player.w/2, player.y + player.h/2, 5,
-                    player.x + player.w/2, player.y + player.h/2, 320
-                );
-                grd.addColorStop(0, 'rgba(255,255,220,0.12)');
-                grd.addColorStop(0.3, 'rgba(255,255,220,0.06)');
-                grd.addColorStop(0.7, 'rgba(255,255,220,0.02)');
-                grd.addColorStop(1, 'rgba(0,0,0,0)');
+                const grd = ctx.createRadialGradient(player.x+player.w/2, player.y+player.h/2, 5, player.x+player.w/2, player.y+player.h/2, 320);
+                grd.addColorStop(0,'rgba(255,255,220,0.12)'); grd.addColorStop(0.3,'rgba(255,255,220,0.06)'); grd.addColorStop(0.7,'rgba(255,255,220,0.02)'); grd.addColorStop(1,'rgba(0,0,0,0)');
                 ctx.fillStyle = grd;
-                ctx.beginPath();
-                ctx.moveTo(player.x + player.w/2, player.y + player.h/2);
+                ctx.beginPath(); ctx.moveTo(player.x+player.w/2, player.y+player.h/2);
                 const spread = 0.75;
-                ctx.arc(player.x + player.w/2, player.y + player.h/2, 320, ang - spread, ang + spread);
-                ctx.closePath();
-                ctx.fill();
-
-                ctx.shadowColor = 'rgba(255,255,200,0.08)';
-                ctx.shadowBlur = 50;
-                ctx.strokeStyle = 'rgba(255,255,200,0.04)';
-                ctx.lineWidth = 35;
-                ctx.beginPath();
-                ctx.moveTo(player.x + player.w/2, player.y + player.h/2);
-                ctx.lineTo(
-                    player.x + player.w/2 + Math.cos(ang) * 320,
-                    player.y + player.h/2 + Math.sin(ang) * 320
-                );
-                ctx.stroke();
-                ctx.shadowBlur = 0;
+                ctx.arc(player.x+player.w/2, player.y+player.h/2, 320, ang-spread, ang+spread);
+                ctx.closePath(); ctx.fill();
+                ctx.shadowColor = 'rgba(255,255,200,0.08)'; ctx.shadowBlur = 50;
+                ctx.strokeStyle = 'rgba(255,255,200,0.04)'; ctx.lineWidth = 35;
+                ctx.beginPath(); ctx.moveTo(player.x+player.w/2, player.y+player.h/2);
+                ctx.lineTo(player.x+player.w/2 + Math.cos(ang)*320, player.y+player.h/2 + Math.sin(ang)*320);
+                ctx.stroke(); ctx.shadowBlur = 0;
             }
 
             // آیتم‌ها
             for (let item of ammoPickups) {
                 if (item.collected) continue;
-                const pulse = Math.sin(gameTime * 0.06 + item.x) * 0.15 + 1;
-                ctx.shadowColor = '#0f0';
-                ctx.shadowBlur = 20 * pulse;
-                ctx.font = '24px Arial';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#0f0';
-                ctx.fillText('📦', item.x + 8, item.y + 8);
+                const pulse = Math.sin(gameTime*0.06 + item.x)*0.15+1;
+                ctx.shadowColor = '#0f0'; ctx.shadowBlur = 20*pulse;
+                ctx.font = '24px Arial'; ctx.textAlign='center'; ctx.textBaseline='middle';
+                ctx.fillStyle = '#0f0'; ctx.fillText('📦', item.x+8, item.y+8);
                 ctx.shadowBlur = 0;
             }
-
             for (let item of healthPickups) {
                 if (item.collected) continue;
-                const pulse = Math.sin(gameTime * 0.06 + item.y) * 0.15 + 1;
-                ctx.shadowColor = '#ff1744';
-                ctx.shadowBlur = 20 * pulse;
-                ctx.font = '24px Arial';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#ff1744';
-                ctx.fillText('❤️', item.x + 8, item.y + 8);
+                const pulse = Math.sin(gameTime*0.06 + item.y)*0.15+1;
+                ctx.shadowColor = '#ff1744'; ctx.shadowBlur = 20*pulse;
+                ctx.font = '24px Arial'; ctx.textAlign='center'; ctx.textBaseline='middle';
+                ctx.fillStyle = '#ff1744'; ctx.fillText('❤️', item.x+8, item.y+8);
                 ctx.shadowBlur = 0;
             }
 
             // دشمنان
             for (let e of enemies) {
                 if (e.dead) continue;
-                const cx = e.x + e.w/2;
-                const cy = e.y + e.h/2;
-                const size = e.w / 2;
-
-                ctx.shadowColor = e.color;
-                ctx.shadowBlur = e.isBoss ? 40 : 20;
-
-                const gradient = ctx.createRadialGradient(
-                    cx - size * 0.2, cy - size * 0.2, size * 0.1,
-                    cx, cy, size
-                );
-                gradient.addColorStop(0, e.colorLight || e.color);
-                gradient.addColorStop(0.5, e.color);
-                gradient.addColorStop(1, e.colorDark || e.color);
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(cx, cy, size, 0, Math.PI * 2);
-                ctx.fill();
+                const cx = e.x + e.w/2, cy = e.y + e.h/2, size = e.w/2;
+                ctx.shadowColor = e.color; ctx.shadowBlur = e.isBoss ? 40 : 20;
+                const gradient = ctx.createRadialGradient(cx-size*0.2, cy-size*0.2, size*0.1, cx, cy, size);
+                gradient.addColorStop(0, e.colorLight || e.color); gradient.addColorStop(0.5, e.color); gradient.addColorStop(1, e.colorDark || e.color);
+                ctx.fillStyle = gradient; ctx.beginPath(); ctx.arc(cx, cy, size, 0, Math.PI*2); ctx.fill();
                 ctx.shadowBlur = 0;
 
-                ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.arc(cx - size * 0.3, cy - size * 0.2, size * 0.5, 0, Math.PI * 2);
-                ctx.stroke();
+                ctx.strokeStyle = 'rgba(0,0,0,0.15)'; ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.arc(cx-size*0.3, cy-size*0.2, size*0.5, 0, Math.PI*2); ctx.stroke();
 
-                const eyeDist = size * 0.35;
-                const eyeSize = size * 0.25;
+                const eyeDist = size*0.35, eyeSize = size*0.25;
+                ctx.shadowColor = e.eyeColor; ctx.shadowBlur = 20;
+                ctx.fillStyle = '#FFF';
+                ctx.beginPath(); ctx.ellipse(cx-eyeDist, cy-size*0.05, eyeSize, eyeSize*1.1, 0, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(cx+eyeDist, cy-size*0.05, eyeSize, eyeSize*1.1, 0, 0, Math.PI*2); ctx.fill();
 
-                ctx.shadowColor = e.eyeColor;
-                ctx.shadowBlur = 20;
-                ctx.fillStyle = '#FFFFFF';
-                ctx.beginPath();
-                ctx.ellipse(cx - eyeDist, cy - size * 0.05, eyeSize, eyeSize * 1.1, 0, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.ellipse(cx + eyeDist, cy - size * 0.05, eyeSize, eyeSize * 1.1, 0, 0, Math.PI * 2);
-                ctx.fill();
-
-                const lookAngle = Math.atan2(
-                    (player.y + player.h/2) - cy,
-                    (player.x + player.w/2) - cx
-                );
-                const lookOffset = eyeSize * 0.3;
-
+                const lookAngle = Math.atan2((player.y+player.h/2)-cy, (player.x+player.w/2)-cx);
+                const lookOffset = eyeSize*0.3;
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = e.eyeColor;
-                ctx.beginPath();
-                ctx.arc(
-                    cx - eyeDist + Math.cos(lookAngle) * lookOffset,
-                    cy - size * 0.05 + Math.sin(lookAngle) * lookOffset * 0.6,
-                    eyeSize * 0.6, 0, Math.PI * 2
-                );
-                ctx.fill();
-                ctx.beginPath();
-                ctx.arc(
-                    cx + eyeDist + Math.cos(lookAngle) * lookOffset,
-                    cy - size * 0.05 + Math.sin(lookAngle) * lookOffset * 0.6,
-                    eyeSize * 0.6, 0, Math.PI * 2
-                );
-                ctx.fill();
-
+                ctx.beginPath(); ctx.arc(cx-eyeDist+Math.cos(lookAngle)*lookOffset, cy-size*0.05+Math.sin(lookAngle)*lookOffset*0.6, eyeSize*0.6, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(cx+eyeDist+Math.cos(lookAngle)*lookOffset, cy-size*0.05+Math.sin(lookAngle)*lookOffset*0.6, eyeSize*0.6, 0, Math.PI*2); ctx.fill();
                 ctx.fillStyle = '#000';
-                ctx.beginPath();
-                ctx.arc(
-                    cx - eyeDist + Math.cos(lookAngle) * lookOffset * 1.1,
-                    cy - size * 0.05 + Math.sin(lookAngle) * lookOffset * 0.7,
-                    eyeSize * 0.25, 0, Math.PI * 2
-                );
-                ctx.fill();
-                ctx.beginPath();
-                ctx.arc(
-                    cx + eyeDist + Math.cos(lookAngle) * lookOffset * 1.1,
-                    cy - size * 0.05 + Math.sin(lookAngle) * lookOffset * 0.7,
-                    eyeSize * 0.25, 0, Math.PI * 2
-                );
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(cx-eyeDist+Math.cos(lookAngle)*lookOffset*1.1, cy-size*0.05+Math.sin(lookAngle)*lookOffset*0.7, eyeSize*0.25, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(cx+eyeDist+Math.cos(lookAngle)*lookOffset*1.1, cy-size*0.05+Math.sin(lookAngle)*lookOffset*0.7, eyeSize*0.25, 0, Math.PI*2); ctx.fill();
 
                 ctx.fillStyle = 'rgba(255,255,255,0.4)';
-                ctx.beginPath();
-                ctx.arc(
-                    cx - eyeDist - eyeSize * 0.2,
-                    cy - size * 0.05 - eyeSize * 0.3,
-                    eyeSize * 0.2, 0, Math.PI * 2
-                );
-                ctx.fill();
-                ctx.beginPath();
-                ctx.arc(
-                    cx + eyeDist - eyeSize * 0.2,
-                    cy - size * 0.05 - eyeSize * 0.3,
-                    eyeSize * 0.2, 0, Math.PI * 2
-                );
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(cx-eyeDist-eyeSize*0.2, cy-size*0.05-eyeSize*0.3, eyeSize*0.2, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(cx+eyeDist-eyeSize*0.2, cy-size*0.05-eyeSize*0.3, eyeSize*0.2, 0, Math.PI*2); ctx.fill();
 
                 ctx.shadowBlur = 0;
-                const mouthY = cy + size * 0.25;
-                const mouthW = size * 0.5;
-
+                const mouthY = cy + size*0.25, mouthW = size*0.5;
                 ctx.fillStyle = e.mouthColor || '#000';
-                ctx.beginPath();
-                ctx.ellipse(cx, mouthY, mouthW, size * 0.15, 0, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-                ctx.lineWidth = 1.5;
-                ctx.beginPath();
-                ctx.arc(cx, mouthY - size * 0.05, mouthW * 0.8, 0.1, Math.PI - 0.1);
-                ctx.stroke();
+                ctx.beginPath(); ctx.ellipse(cx, mouthY, mouthW, size*0.15, 0, 0, Math.PI*2); ctx.fill();
+                ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.arc(cx, mouthY-size*0.05, mouthW*0.8, 0.1, Math.PI-0.1); ctx.stroke();
 
                 if (e.type === 'huggy' || e.isBoss) {
-                    ctx.fillStyle = '#FFFFFF';
-                    for (let t = -mouthW * 0.6; t < mouthW * 0.6; t += 6) {
-                        ctx.fillRect(cx + t - 2, mouthY + size * 0.05, 4, 5);
-                    }
+                    ctx.fillStyle = '#FFF';
+                    for (let t = -mouthW*0.6; t < mouthW*0.6; t += 6) { ctx.fillRect(cx+t-2, mouthY+size*0.05, 4, 5); }
                 }
 
-                ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-                ctx.lineWidth = 2;
-                const browY = cy - size * 0.3;
-                ctx.beginPath();
-                ctx.moveTo(cx - eyeDist - eyeSize, browY);
-                ctx.lineTo(cx - eyeDist + eyeSize, browY - 3);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(cx + eyeDist - eyeSize, browY);
-                ctx.lineTo(cx + eyeDist + eyeSize, browY - 3);
-                ctx.stroke();
+                ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.lineWidth = 2;
+                const browY = cy - size*0.3;
+                ctx.beginPath(); ctx.moveTo(cx-eyeDist-eyeSize, browY); ctx.lineTo(cx-eyeDist+eyeSize, browY-3); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(cx+eyeDist-eyeSize, browY); ctx.lineTo(cx+eyeDist+eyeSize, browY-3); ctx.stroke();
 
                 if (e.type === 'huggy' || e.isBoss) {
                     ctx.fillStyle = e.colorDark || '#1A237E';
-                    ctx.beginPath();
-                    ctx.ellipse(cx - size * 0.9, cy - size * 0.4, size * 0.2, size * 0.4, -0.3, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.ellipse(cx + size * 0.9, cy - size * 0.4, size * 0.2, size * 0.4, 0.3, 0, Math.PI * 2);
-                    ctx.fill();
+                    ctx.beginPath(); ctx.ellipse(cx-size*0.9, cy-size*0.4, size*0.2, size*0.4, -0.3, 0, Math.PI*2); ctx.fill();
+                    ctx.beginPath(); ctx.ellipse(cx+size*0.9, cy-size*0.4, size*0.2, size*0.4, 0.3, 0, Math.PI*2); ctx.fill();
                     ctx.fillStyle = e.colorLight || '#90CAF9';
-                    ctx.beginPath();
-                    ctx.ellipse(cx - size * 0.9, cy - size * 0.3, size * 0.1, size * 0.2, -0.3, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.ellipse(cx + size * 0.9, cy - size * 0.3, size * 0.1, size * 0.2, 0.3, 0, Math.PI * 2);
-                    ctx.fill();
+                    ctx.beginPath(); ctx.ellipse(cx-size*0.9, cy-size*0.3, size*0.1, size*0.2, -0.3, 0, Math.PI*2); ctx.fill();
+                    ctx.beginPath(); ctx.ellipse(cx+size*0.9, cy-size*0.3, size*0.1, size*0.2, 0.3, 0, Math.PI*2); ctx.fill();
                 }
 
                 if (e.isBoss) {
-                    ctx.shadowColor = '#ff1744';
-                    ctx.shadowBlur = 40;
-                    ctx.strokeStyle = `rgba(255,23,68,${0.2 + Math.sin(gameTime * 0.05) * 0.1})`;
-                    ctx.lineWidth = 3;
-                    ctx.setLineDash([8, 8]);
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, size + 10, 0, Math.PI * 2);
-                    ctx.stroke();
-                    ctx.setLineDash([]);
-                    ctx.shadowBlur = 0;
-
-                    ctx.fillStyle = '#ff1744';
-                    ctx.font = 'bold 14px "Courier New", monospace';
-                    ctx.textAlign = 'center';
-                    ctx.shadowColor = '#ff1744';
-                    ctx.shadowBlur = 20;
-                    ctx.fillText(e.name, cx, cy - size - 18);
-                    ctx.shadowBlur = 0;
-
+                    ctx.shadowColor = '#ff1744'; ctx.shadowBlur = 40;
+                    ctx.strokeStyle = `rgba(255,23,68,${0.2+Math.sin(gameTime*0.05)*0.1})`;
+                    ctx.lineWidth = 3; ctx.setLineDash([8,8]);
+                    ctx.beginPath(); ctx.arc(cx, cy, size+10, 0, Math.PI*2); ctx.stroke();
+                    ctx.setLineDash([]); ctx.shadowBlur = 0;
+                    ctx.fillStyle = '#ff1744'; ctx.font = 'bold 14px "Courier New", monospace';
+                    ctx.textAlign = 'center'; ctx.shadowColor = '#ff1744'; ctx.shadowBlur = 20;
+                    ctx.fillText(e.name, cx, cy-size-18); ctx.shadowBlur = 0;
                     if (e.rageMode) {
                         ctx.fillStyle = 'rgba(255,0,0,0.1)';
-                        ctx.beginPath();
-                        ctx.arc(cx, cy, size + 15, 0, Math.PI * 2);
-                        ctx.fill();
+                        ctx.beginPath(); ctx.arc(cx, cy, size+15, 0, Math.PI*2); ctx.fill();
                     }
                 }
 
                 if (e.hp < e.maxHp || e.isBoss) {
-                    const bw = e.isBoss ? size * 1.6 : size * 1.2;
+                    const bw = e.isBoss ? size*1.6 : size*1.2;
                     const bh = e.isBoss ? 6 : 4;
                     const by = cy - size - (e.isBoss ? 26 : 12);
-                    ctx.fillStyle = 'rgba(0,0,0,0.6)';
-                    ctx.fillRect(cx - bw/2, by, bw, bh);
+                    ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(cx-bw/2, by, bw, bh);
                     const hpRatio = e.hp / e.maxHp;
                     ctx.fillStyle = hpRatio > 0.3 ? '#4CAF50' : '#ff1744';
-                    ctx.fillRect(cx - bw/2, by, bw * Math.max(0, hpRatio), bh);
-                    if (e.isBoss) {
-                        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-                        ctx.lineWidth = 1;
-                        ctx.strokeRect(cx - bw/2, by, bw, bh);
-                    }
+                    ctx.fillRect(cx-bw/2, by, bw * Math.max(0, hpRatio), bh);
+                    if (e.isBoss) { ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1; ctx.strokeRect(cx-bw/2, by, bw, bh); }
                 }
 
                 if (e.stunTimer > 0) {
-                    ctx.strokeStyle = `rgba(255,255,0,${0.3 + Math.sin(gameTime * 0.2) * 0.2})`;
-                    ctx.lineWidth = 2;
-                    ctx.setLineDash([4, 6]);
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, size + 4, 0, Math.PI * 2);
-                    ctx.stroke();
+                    ctx.strokeStyle = `rgba(255,255,0,${0.3+Math.sin(gameTime*0.2)*0.2})`;
+                    ctx.lineWidth = 2; ctx.setLineDash([4,6]);
+                    ctx.beginPath(); ctx.arc(cx, cy, size+4, 0, Math.PI*2); ctx.stroke();
                     ctx.setLineDash([]);
                 }
             }
 
             // گلوله‌ها
             for (let b of activeBullets) {
-                ctx.shadowColor = b.color;
-                ctx.shadowBlur = 25;
-                ctx.fillStyle = b.color;
-                ctx.beginPath();
-                ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = 'rgba(0,255,136,0.2)';
-                ctx.beginPath();
-                ctx.arc(b.x - b.vx * 0.4, b.y - b.vy * 0.4, b.radius * 0.7, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.shadowColor = b.color; ctx.shadowBlur = 25;
+                ctx.fillStyle = b.color; ctx.beginPath(); ctx.arc(b.x, b.y, b.radius, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = 'rgba(0,255,136,0.2)'; ctx.beginPath(); ctx.arc(b.x-b.vx*0.4, b.y-b.vy*0.4, b.radius*0.7, 0, Math.PI*2); ctx.fill();
                 ctx.shadowBlur = 0;
             }
 
             // بازیکن
             const px = player.x, py = player.y;
-            const cx2 = px + player.w/2, cy2 = py + player.h/2;
-
-            ctx.shadowColor = 'rgba(0,0,0,0.5)';
-            ctx.shadowBlur = 20;
-            ctx.shadowOffsetY = 5;
-
+            const cx2 = px+player.w/2, cy2 = py+player.h/2;
+            ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 20; ctx.shadowOffsetY = 5;
             ctx.shadowBlur = 10;
-            ctx.fillStyle = '#1a2a3a';
-            ctx.beginPath();
-            ctx.roundRect(px + 2, py + 8, player.w - 4, player.h - 12, 4);
-            ctx.fill();
-
-            ctx.fillStyle = '#2a3a4a';
-            ctx.beginPath();
-            ctx.roundRect(px + 4, py + 12, player.w - 8, 14, 3);
-            ctx.fill();
-
+            ctx.fillStyle = '#1a2a3a'; ctx.beginPath(); ctx.roundRect(px+2, py+8, player.w-4, player.h-12, 4); ctx.fill();
+            ctx.fillStyle = '#2a3a4a'; ctx.beginPath(); ctx.roundRect(px+4, py+12, player.w-8, 14, 3); ctx.fill();
             ctx.shadowBlur = 8;
-            ctx.fillStyle = '#2a4a3a';
-            ctx.beginPath();
-            ctx.arc(cx2, py + 6, 14, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#1a3a2a';
-            ctx.fillRect(cx2 - 12, py - 2, 24, 4);
-            ctx.fillRect(cx2 - 10, py + 2, 20, 2);
-
-            ctx.shadowBlur = 0;
-            ctx.shadowOffsetY = 0;
+            ctx.fillStyle = '#2a4a3a'; ctx.beginPath(); ctx.arc(cx2, py+6, 14, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = '#1a3a2a'; ctx.fillRect(cx2-12, py-2, 24, 4); ctx.fillRect(cx2-10, py+2, 20, 2);
+            ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
 
             const eyeAng = player.angle;
-            const eyeOffX = Math.cos(eyeAng) * 3;
-            const eyeOffY = Math.sin(eyeAng) * 2;
-
-            ctx.fillStyle = '#FFFFFF';
-            ctx.beginPath();
-            ctx.arc(cx2 - 5 + eyeOffX, py + 4 + eyeOffY, 4.5, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(cx2 + 5 + eyeOffX, py + 4 + eyeOffY, 4.5, 0, Math.PI * 2);
-            ctx.fill();
-
+            const eyeOffX = Math.cos(eyeAng)*3, eyeOffY = Math.sin(eyeAng)*2;
+            ctx.fillStyle = '#FFF';
+            ctx.beginPath(); ctx.arc(cx2-5+eyeOffX, py+4+eyeOffY, 4.5, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(cx2+5+eyeOffX, py+4+eyeOffY, 4.5, 0, Math.PI*2); ctx.fill();
             ctx.fillStyle = '#1A237E';
-            ctx.beginPath();
-            ctx.arc(cx2 - 3 + eyeOffX * 1.2, py + 5 + eyeOffY * 1.2, 2.5, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(cx2 + 7 + eyeOffX * 1.2, py + 5 + eyeOffY * 1.2, 2.5, 0, Math.PI * 2);
-            ctx.fill();
-
+            ctx.beginPath(); ctx.arc(cx2-3+eyeOffX*1.2, py+5+eyeOffY*1.2, 2.5, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(cx2+7+eyeOffX*1.2, py+5+eyeOffY*1.2, 2.5, 0, Math.PI*2); ctx.fill();
             ctx.fillStyle = 'rgba(255,255,255,0.6)';
-            ctx.beginPath();
-            ctx.arc(cx2 - 4 + eyeOffX, py + 3 + eyeOffY, 1.5, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(cx2 + 6 + eyeOffX, py + 3 + eyeOffY, 1.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.strokeStyle = '#1A237E';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.arc(cx2, py + 10, 5, 0.1, Math.PI - 0.1);
-            ctx.stroke();
+            ctx.beginPath(); ctx.arc(cx2-4+eyeOffX, py+3+eyeOffY, 1.5, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(cx2+6+eyeOffX, py+3+eyeOffY, 1.5, 0, Math.PI*2); ctx.fill();
+            ctx.strokeStyle = '#1A237E'; ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.arc(cx2, py+10, 5, 0.1, Math.PI-0.1); ctx.stroke();
 
             if (player.flashlight) {
-                ctx.shadowColor = '#ffd740';
-                ctx.shadowBlur = 40;
-                ctx.fillStyle = '#ffd740';
-                ctx.beginPath();
-                ctx.arc(cx2 + Math.cos(player.angle) * 20, cy2 + Math.sin(player.angle) * 20, 5, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.shadowColor = '#ffd740'; ctx.shadowBlur = 40;
+                ctx.fillStyle = '#ffd740'; ctx.beginPath(); ctx.arc(cx2+Math.cos(player.angle)*20, cy2+Math.sin(player.angle)*20, 5, 0, Math.PI*2); ctx.fill();
                 ctx.shadowBlur = 0;
             }
 
-            const wx = cx2 + Math.cos(player.angle) * 22;
-            const wy = cy2 + Math.sin(player.angle) * 22;
+            const wx = cx2+Math.cos(player.angle)*22, wy = cy2+Math.sin(player.angle)*22;
             const wobble = player.weaponBob;
-
-            ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = 8;
-            ctx.shadowOffsetY = 2;
-
-            ctx.fillStyle = '#2a3a4a';
-            ctx.fillRect(wx - 3, wy - 2 + wobble, 16, 4);
-            ctx.fillStyle = '#1a1a2e';
-            ctx.fillRect(wx + 10, wy - 5 + wobble, 8, 10);
-            ctx.fillStyle = '#2a2a3a';
-            ctx.fillRect(wx + 12, wy - 3 + wobble, 4, 6);
-
-            ctx.shadowBlur = 0;
-            ctx.shadowOffsetY = 0;
+            ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 2;
+            ctx.fillStyle = '#2a3a4a'; ctx.fillRect(wx-3, wy-2+wobble, 16, 4);
+            ctx.fillStyle = '#1a1a2e'; ctx.fillRect(wx+10, wy-5+wobble, 8, 10);
+            ctx.fillStyle = '#2a2a3a'; ctx.fillRect(wx+12, wy-3+wobble, 4, 6);
+            ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
 
             // ذرات
             for (let p of activeParticles) {
                 const alpha = p.life / (p.maxLife || 30);
                 ctx.globalAlpha = alpha;
-                ctx.fillStyle = p.color;
-                ctx.shadowColor = p.color;
-                ctx.shadowBlur = 15 * alpha;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, Math.max(0.5, p.size * alpha), 0, Math.PI * 2);
-                ctx.fill();
+                ctx.fillStyle = p.color; ctx.shadowColor = p.color; ctx.shadowBlur = 15*alpha;
+                ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(0.5, p.size*alpha), 0, Math.PI*2); ctx.fill();
             }
-            ctx.globalAlpha = 1;
-            ctx.shadowBlur = 0;
+            ctx.globalAlpha = 1; ctx.shadowBlur = 0;
 
             // متن‌های شناور
             for (let ft of activeFloatTexts) {
                 const alpha = ft.life / ft.maxLife;
                 ctx.globalAlpha = alpha;
-                ctx.fillStyle = ft.color;
-                ctx.font = `bold ${ft.size}px "Courier New", monospace`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.shadowColor = ft.color;
-                ctx.shadowBlur = 20 * alpha;
+                ctx.fillStyle = ft.color; ctx.font = `bold ${ft.size}px "Courier New", monospace`;
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.shadowColor = ft.color; ctx.shadowBlur = 20*alpha;
                 ctx.fillText(ft.text, ft.x, ft.y);
                 ctx.shadowBlur = 0;
             }
             ctx.globalAlpha = 1;
 
             // HUD روی بوم
-            ctx.fillStyle = 'rgba(0,255,0,0.1)';
-            ctx.font = '12px "Courier New", monospace';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'bottom';
-            ctx.fillText(`⏱ ${Math.floor(gameTime / 60)}s`, 15, H - 15);
-            ctx.textAlign = 'right';
-            ctx.fillText(`👾 ${enemies.filter(e => !e.dead).length}`, W - 15, H - 15);
-
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
+            ctx.fillStyle = 'rgba(0,255,0,0.1)'; ctx.font = '12px "Courier New", monospace';
+            ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+            ctx.fillText(`⏱ ${Math.floor(gameTime/60)}s`, 15, H-15);
+            ctx.textAlign = 'right'; ctx.fillText(`👾 ${enemies.filter(e=>!e.dead).length}`, W-15, H-15);
+            ctx.textAlign = 'center'; ctx.textBaseline = 'top';
             ctx.fillStyle = player.flashlight ? 'rgba(255,255,200,0.2)' : 'rgba(255,0,0,0.1)';
-            ctx.font = '28px Arial';
-            ctx.fillText(player.flashlight ? '💡' : '🌑', W/2, 12);
-
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'top';
-            ctx.fillStyle = 'rgba(255,255,255,0.1)';
-            ctx.font = '14px "Courier New", monospace';
+            ctx.font = '28px Arial'; ctx.fillText(player.flashlight ? '💡' : '🌑', W/2, 12);
+            ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+            ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.font = '14px "Courier New", monospace';
             const bossText = bossActive ? '⚠️ باس فعال!' : (bossDefeated ? '✅ باس کشته شد' : '');
             ctx.fillText(`📊 مرحله ${level}  |  ${bossText}`, 15, 15);
 
             if (state === GameState.GAMEOVER) {
-                ctx.fillStyle = 'rgba(0,0,0,0.85)';
-                ctx.fillRect(0, 0, W, H);
-                ctx.fillStyle = '#ff1744';
-                ctx.font = 'bold 60px "Courier New", monospace';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.shadowColor = '#ff1744';
-                ctx.shadowBlur = 50;
-                ctx.fillText('💀 GAME OVER', W/2, H/2 - 50);
+                ctx.fillStyle = 'rgba(0,0,0,0.85)'; ctx.fillRect(0,0,W,H);
+                ctx.fillStyle = '#ff1744'; ctx.font = 'bold 60px "Courier New", monospace';
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.shadowColor = '#ff1744'; ctx.shadowBlur = 50;
+                ctx.fillText('💀 GAME OVER', W/2, H/2-50);
                 ctx.shadowBlur = 0;
-                ctx.fillStyle = '#fff';
-                ctx.font = '26px "Courier New", monospace';
-                ctx.fillText(`امتیاز: ${score}  |  کشته‌ها: ${kills}  |  مرحله: ${level}`, W/2, H/2 + 30);
-                ctx.fillStyle = '#888';
-                ctx.font = '18px "Courier New", monospace';
-                ctx.fillText('برای شروع مجدد کلیک کنید یا Enter بزنید', W/2, H/2 + 90);
+                ctx.fillStyle = '#fff'; ctx.font = '26px "Courier New", monospace';
+                ctx.fillText(`امتیاز: ${score}  |  کشته‌ها: ${kills}  |  مرحله: ${level}`, W/2, H/2+30);
+                ctx.fillStyle = '#888'; ctx.font = '18px "Courier New", monospace';
+                ctx.fillText('برای شروع مجدد کلیک کنید یا Enter بزنید', W/2, H/2+90);
             }
 
             if (state === GameState.MENU) {
-                ctx.fillStyle = '#0a0a0a';
-                ctx.fillRect(0, 0, W, H);
-
-                for (let i = 0; i < 60; i++) {
-                    const x = (i * 37 + gameTime * 0.05) % W;
-                    const y = (i * 53 + gameTime * 0.03) % H;
-                    ctx.fillStyle = `rgba(233,69,96,${0.04 + Math.sin(gameTime*0.02 + i)*0.02})`;
-                    ctx.beginPath();
-                    ctx.arc(x, y, 1.5 + Math.sin(gameTime*0.03 + i)*1, 0, Math.PI*2);
-                    ctx.fill();
+                ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0,0,W,H);
+                for (let i=0; i<60; i++) {
+                    const x = (i*37 + gameTime*0.05) % W, y = (i*53 + gameTime*0.03) % H;
+                    ctx.fillStyle = `rgba(233,69,96,${0.04+Math.sin(gameTime*0.02+i)*0.02})`;
+                    ctx.beginPath(); ctx.arc(x, y, 1.5+Math.sin(gameTime*0.03+i)*1, 0, Math.PI*2); ctx.fill();
                 }
-
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.shadowColor = '#e94560';
-                ctx.shadowBlur = 50;
-                ctx.fillStyle = '#e94560';
-                ctx.font = 'bold 56px "Courier New", monospace';
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.shadowColor = '#e94560'; ctx.shadowBlur = 50;
+                ctx.fillStyle = '#e94560'; ctx.font = 'bold 56px "Courier New", monospace';
                 ctx.fillText('🔦 DOOM 3 × Poppy', W/2, 120);
                 ctx.shadowBlur = 0;
-                ctx.fillStyle = '#0f0';
-                ctx.font = '28px "Courier New", monospace';
+                ctx.fillStyle = '#0f0'; ctx.font = '28px "Courier New", monospace';
                 ctx.fillText('🎪 ماجراجویی بی‌پایان', W/2, 175);
-
-                ctx.fillStyle = '#aaa';
-                ctx.font = '18px "Courier New", monospace';
+                ctx.fillStyle = '#aaa'; ctx.font = '18px "Courier New", monospace';
                 ctx.fillText('هاگی واگی در تاریکی کمین کرده...', W/2, 225);
-
-                for (let i = 0; i < 4; i++) {
-                    const ex = 180 + i * 220;
-                    const ey = 400 + Math.sin(gameTime*0.015 + i*1.5) * 20;
-                    ctx.shadowColor = '#ff1744';
-                    ctx.shadowBlur = 30;
-                    ctx.fillStyle = '#ff1744';
-                    ctx.beginPath();
-                    ctx.arc(ex - 12, ey, 10, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(ex + 12, ey, 10, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
-                    ctx.fillStyle = '#000';
-                    ctx.beginPath();
-                    ctx.arc(ex - 10, ey + 1, 4, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(ex + 14, ey + 1, 4, 0, Math.PI * 2);
-                    ctx.fill();
+                for (let i=0; i<4; i++) {
+                    const ex = 180 + i*220, ey = 400 + Math.sin(gameTime*0.015+i*1.5)*20;
+                    ctx.shadowColor = '#ff1744'; ctx.shadowBlur = 30;
+                    ctx.fillStyle = '#ff1744'; ctx.beginPath(); ctx.arc(ex-12, ey, 10, 0, Math.PI*2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(ex+12, ey, 10, 0, Math.PI*2); ctx.fill();
+                    ctx.shadowBlur = 0; ctx.fillStyle = '#000';
+                    ctx.beginPath(); ctx.arc(ex-10, ey+1, 4, 0, Math.PI*2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(ex+14, ey+1, 4, 0, Math.PI*2); ctx.fill();
                 }
-
-                ctx.fillStyle = '#666';
-                ctx.font = '15px "Courier New", monospace';
-                ctx.shadowBlur = 0;
+                ctx.fillStyle = '#666'; ctx.font = '15px "Courier New", monospace'; ctx.shadowBlur = 0;
                 ctx.fillText('🕹️ WASD حرکت | F چراغ | Space شلیک | R مهمات | Shift دویدن', W/2, 490);
-                ctx.fillStyle = '#0f0';
-                ctx.font = '22px "Courier New", monospace';
-                ctx.shadowColor = '#0f0';
-                ctx.shadowBlur = 20;
+                ctx.fillStyle = '#0f0'; ctx.font = '22px "Courier New", monospace';
+                ctx.shadowColor = '#0f0'; ctx.shadowBlur = 20;
                 ctx.fillText('▶ کلیک کنید یا Enter بزنید', W/2, 555);
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = '#444';
-                ctx.font = '13px "Courier New", monospace';
+                ctx.shadowBlur = 0; ctx.fillStyle = '#444'; ctx.font = '13px "Courier New", monospace';
                 ctx.fillText('⭐ هر ۵ مرحله یک غول | مراحل نامحدود | سختی افزایشی', W/2, 600);
             }
 
@@ -1820,7 +1399,7 @@
         }
 
         // ================================================================
-        // 20. حلقه اصلی با delta time
+        // 18. حلقه اصلی
         // ================================================================
         function gameLoop(timestamp) {
             if (!lastTimestamp) lastTimestamp = timestamp;
@@ -1834,14 +1413,13 @@
                 requestAnimationFrame(gameLoop);
                 return;
             }
-
             update(deltaTime);
             draw();
             requestAnimationFrame(gameLoop);
         }
 
         // ================================================================
-        // 21. رویدادهای شروع
+        // 19. رویدادهای شروع
         // ================================================================
         function handleStart() {
             if (state === GameState.MENU) startGame();
@@ -1851,7 +1429,6 @@
         canvas.addEventListener('click', handleStart);
         input.onKeyEnter(handleStart);
 
-        // نمایش راهنمای کیبورد
         setTimeout(() => {
             const hint = document.getElementById('focus-hint');
             if (hint && state === GameState.MENU) {
@@ -1861,37 +1438,34 @@
         }, 3000);
 
         // ================================================================
-        // 22. polyfill roundRect
+        // 20. polyfill roundRect
         // ================================================================
         if (!CanvasRenderingContext2D.prototype.roundRect) {
-            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r) {
                 if (r > w/2) r = w/2;
                 if (r > h/2) r = h/2;
-                this.moveTo(x + r, y);
-                this.lineTo(x + w - r, y);
-                this.quadraticCurveTo(x + w, y, x + w, y + r);
-                this.lineTo(x + w, y + h - r);
-                this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-                this.lineTo(x + r, y + h);
-                this.quadraticCurveTo(x, y + h, x, y + h - r);
-                this.lineTo(x, y + r);
-                this.quadraticCurveTo(x, y, x + r, y);
+                this.moveTo(x+r,y); this.lineTo(x+w-r,y);
+                this.quadraticCurveTo(x+w,y,x+w,y+r);
+                this.lineTo(x+w,y+h-r);
+                this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+                this.lineTo(x+r,y+h);
+                this.quadraticCurveTo(x,y+h,x,y+h-r);
+                this.lineTo(x,y+r);
+                this.quadraticCurveTo(x,y,x+r,y);
                 this.closePath();
                 return this;
             };
         }
 
         // ================================================================
-        // 23. شروع
+        // 21. شروع
         // ================================================================
         state = GameState.MENU;
         gameLoop(0);
 
-        console.log('🔦 DOOM 3 × Poppy Playtime - نسخه ۲۰۲۶ (کامل)');
+        console.log('🔦 DOOM 3 × Poppy Playtime - نسخه ۲۰۲۶ (کامل + کنترلر لمسی)');
         console.log('🕹️ WASD حرکت | F چراغ | Space شلیک | R مهمات | Shift دویدن');
-        console.log('👾 هر ۵ مرحله یک غول | مراحل نامحدود');
 
-        // تمیزکاری در صورت بسته شدن صفحه
         window.addEventListener('beforeunload', () => {
             input.destroy();
             bulletPool.clear();
